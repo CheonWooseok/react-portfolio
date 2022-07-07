@@ -24,7 +24,7 @@ export default function Header() {
           <Nav className="me-auto">
             <Navbar.Brand
               as={Link}
-              to="home"
+              to=""
               style={{
                 fontSize: "30px",
                 letterSpacing: "2px",
@@ -36,7 +36,7 @@ export default function Header() {
           </Nav>
           {media === "pc" ? (
             <Nav>
-              <Nav.Link as={Link} to="home">
+              <Nav.Link as={Link} to="">
                 <HeaderItem>
                   <House /> <li>Home</li>
                 </HeaderItem>
@@ -54,7 +54,7 @@ export default function Header() {
               <Nav.Link as={Link} to="contact">
                 <HeaderItem>
                   <Envelope />
-                  <li>Contact Me</li>
+                  <li>Contact</li>
                 </HeaderItem>
               </Nav.Link>
             </Nav>
