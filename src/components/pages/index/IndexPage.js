@@ -37,7 +37,7 @@ const Container = styled.div`
 `;
 
 export default function IndexPage() {
-  const FINISH_TEXT = "제 포트폴리오를 봐주셔서 감사합니다 !";
+  const FINISH_TEXT = "제 포트폴리오를 봐주셔서 진심으로 감사합니다 !";
 
   const [text, setText] = useState("");
 

@@ -1,7 +1,9 @@
-import { Container, Nav, Navbar } from "react-bootstrap";
+import { useState } from "react";
+import { Card, Collapse, Container, Nav, Navbar } from "react-bootstrap";
 import { Code, Envelope, House, List, Person } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import manImage from "../../assets/image/man.png";
 import useMedia from "../../utils/hooks/useMedia";
 
 const HeaderItem = styled.div`
@@ -33,8 +35,16 @@ const CustomNavBar = styled(Navbar)`
   }
 `;
 
+const MobileMenuButton = styled.div`
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
 export default function Header() {
   const { media } = useMedia();
+
+  const [open, setOpen] = useState(false);
 
   return (
     <>
@@ -50,6 +60,7 @@ export default function Header() {
                 color: "#EEEEEE",
               }}
             >
+              <img src={manImage} style={{ width: "50px", margin: "10px" }} />
               Rightsn
             </Navbar.Brand>
           </Nav>
@@ -80,9 +91,22 @@ export default function Header() {
           ) : (
             <Nav>
               <Nav.Item>
-                {/* <Button> */}
-                <List color="white" fontSize="30px" />
-                {/* </Button> */}
+                <MobileMenuButton onClick={() => setOpen((prev) => !prev)}>
+                  <List color="white" fontSize="30px" />
+                </MobileMenuButton>
+                <Collapse in={open} dimension="height">
+                  <div
+                    id="example-collapse-text"
+                    style={{ position: "fixed", zIndex: "9999", left: "0" }}
+                  >
+                    <Card body style={{ width: "400px" }}>
+                      Anim pariatur cliche reprehenderit, enim eiusmod high life
+                      accusamus terry richardson ad squid. Nihil anim keffiyeh
+                      helvetica, craft beer labore wes anderson cred nesciunt
+                      sapiente ea proident.
+                    </Card>
+                  </div>
+                </Collapse>
               </Nav.Item>
             </Nav>
           )}
