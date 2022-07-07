@@ -14,12 +14,31 @@ const HeaderItem = styled.div`
   }
 `;
 
+const CustomNavBar = styled(Navbar)`
+  height: 80px;
+  &:before {
+    width: 100%;
+    height: 80px;
+    /* background-color: #000; */
+    background:
+        /* top, transparent black, faked with gradient */ linear-gradient(
+      rgba(0, 0, 0, 0.7),
+      rgba(0, 0, 0, 0.7)
+    );
+    position: fixed;
+    z-index: -1;
+    content: "";
+    /* opacity: 0.5; */
+    /* filter: darken(10%); */
+  }
+`;
+
 export default function Header() {
   const { media } = useMedia();
 
   return (
     <>
-      <Navbar bg="dark" variant="dark" fixed="top" style={{ height: "80px" }}>
+      <CustomNavBar bg="none" variant="dark" fixed="top">
         <Container>
           <Nav className="me-auto">
             <Navbar.Brand
@@ -68,7 +87,7 @@ export default function Header() {
             </Nav>
           )}
         </Container>
-      </Navbar>
+      </CustomNavBar>
     </>
   );
 }
