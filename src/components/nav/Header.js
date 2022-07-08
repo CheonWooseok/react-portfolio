@@ -1,6 +1,13 @@
 import { useState } from "react";
-import { Card, Collapse, Container, Nav, Navbar } from "react-bootstrap";
-import { Code, Envelope, House, List, Person } from "react-bootstrap-icons";
+import { Collapse, Container, Nav, Navbar } from "react-bootstrap";
+import {
+  Code,
+  Envelope,
+  House,
+  List,
+  Person,
+  XSquare,
+} from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import manImage from "../../assets/image/man.png";
@@ -36,15 +43,32 @@ const CustomNavBar = styled(Navbar)`
 `;
 
 const MobileMenuButton = styled.div`
+  display: flex;
+  align-items: center;
+  height: 80px;
   &:hover {
     cursor: pointer;
   }
 `;
 
+const CustomCard = styled.div`
+  color: #fff;
+  width: 100%;
+  /* height: 40vh; */
+  position: absolute;
+  background-color: #333;
+  /* background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)); */
+`;
+
+const MENUS = [
+  { name: "Home", link: "", icon: <House /> },
+  { name: "About Me", link: "aboutme", icon: <Person /> },
+  { name: "Project", link: "project", icon: <Code /> },
+  { name: "Contact", link: "contact", icon: <Envelope /> },
+];
+
 export default function Header() {
   const { media } = useMedia();
-
-  const [open, setOpen] = useState(false);
 
   return (
     <>
@@ -64,54 +88,74 @@ export default function Header() {
               Rightsn
             </Navbar.Brand>
           </Nav>
-          {media === "pc" ? (
+          {media !== "mobile" ? (
             <Nav>
-              <Nav.Link as={Link} to="">
-                <HeaderItem>
-                  <House /> <li>Home</li>
-                </HeaderItem>
-              </Nav.Link>
-              <Nav.Link as={Link} to="aboutme">
-                <HeaderItem>
-                  <Person /> <li>About Me</li>
-                </HeaderItem>
-              </Nav.Link>
-              <Nav.Link as={Link} to="project">
-                <HeaderItem>
-                  <Code /> <li>Projects</li>
-                </HeaderItem>
-              </Nav.Link>
-              <Nav.Link as={Link} to="contact">
-                <HeaderItem>
-                  <Envelope />
-                  <li>Contact</li>
-                </HeaderItem>
-              </Nav.Link>
+              {MENUS.map((menu) => (
+                <Nav.Link as={Link} to={menu.link} key={menu.name}>
+                  <HeaderItem>
+                    {menu.icon}
+                    <li>{menu.name}</li>
+                  </HeaderItem>
+                </Nav.Link>
+              ))}
             </Nav>
           ) : (
-            <Nav>
-              <Nav.Item>
-                <MobileMenuButton onClick={() => setOpen((prev) => !prev)}>
-                  <List color="white" fontSize="30px" />
-                </MobileMenuButton>
-                <Collapse in={open} dimension="height">
-                  <div
-                    id="example-collapse-text"
-                    style={{ position: "fixed", zIndex: "9999", left: "0" }}
-                  >
-                    <Card body style={{ width: "400px" }}>
-                      Anim pariatur cliche reprehenderit, enim eiusmod high life
-                      accusamus terry richardson ad squid. Nihil anim keffiyeh
-                      helvetica, craft beer labore wes anderson cred nesciunt
-                      sapiente ea proident.
-                    </Card>
-                  </div>
-                </Collapse>
-              </Nav.Item>
-            </Nav>
+            <MobileBar />
           )}
         </Container>
       </CustomNavBar>
     </>
   );
 }
+
+const MobileBar = () => {
+  const [open, setOpen] = useState(false);
+
+  const onChangeOpen = () => {};
+
+  return (
+    <Nav>
+      <Nav.Item>
+        <MobileMenuButton onClick={() => setOpen((prev) => !prev)}>
+          {open ? (
+            <XSquare color="white" fontSize="30px" />
+          ) : (
+            <List color="white" fontSize="35px" />
+          )}
+        </MobileMenuButton>
+        <Collapse in={open} dimension="height">
+          <div
+            id="example-collapse-text"
+            style={{
+              position: "fixed",
+              zIndex: "9999",
+              left: "0",
+              width: "100%",
+            }}
+          >
+            <CustomCard>
+              {MENUS.map((menu) => (
+                <Nav.Link
+                  as={Link}
+                  to={menu.link}
+                  key={menu.link}
+                  style={{ width: "100%" }}
+                >
+                  <HeaderItem
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    {menu.icon}
+                    <li>{menu.name}</li>
+                  </HeaderItem>
+                </Nav.Link>
+              ))}
+            </CustomCard>
+          </div>
+        </Collapse>
+      </Nav.Item>
+    </Nav>
+  );
+};

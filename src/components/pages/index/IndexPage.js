@@ -9,7 +9,7 @@ const CustomImg = styled.img`
 
 const Container = styled.div`
   width: 100%;
-  margin-top: -100px;
+  /* margin-top: -100px; */
   height: 100vh;
   &:before {
     content: "";
@@ -19,7 +19,7 @@ const Container = styled.div`
     background-position: 50% 80%;
     /* opacity: 0.8; */
     position: absolute;
-    top: 0px;
+    top: 80px;
     left: 0px;
     right: 0px;
     bottom: 0px;

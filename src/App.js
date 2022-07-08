@@ -7,7 +7,7 @@ function App() {
     <div>
       <BrowserRouter>
         <Header />
-        <div style={{ marginTop: "100px", padding: "0", minHeight: "100vh" }}>
+        <div style={{ marginTop: "100px", padding: "0", minHeight: "1000vh" }}>
           <DefaultRouter />
         </div>
       </BrowserRouter>
