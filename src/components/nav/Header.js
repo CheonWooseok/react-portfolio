@@ -1,3 +1,4 @@
+import { ClickAwayListener } from "@mui/material";
 import { useState } from "react";
 import { Collapse, Container, Nav, Navbar } from "react-bootstrap";
 import {
@@ -8,7 +9,7 @@ import {
   Person,
   XSquare,
 } from "react-bootstrap-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import manImage from "../../assets/image/man.png";
 import useMedia from "../../utils/hooks/useMedia";
@@ -70,6 +71,8 @@ const MENUS = [
 export default function Header() {
   const { media } = useMedia();
 
+  console.log("init");
+
   return (
     <>
       <CustomNavBar bg="none" variant="dark" fixed="top">
@@ -111,51 +114,71 @@ export default function Header() {
 const MobileBar = () => {
   const [open, setOpen] = useState(false);
 
-  const onChangeOpen = () => {};
+  const navigate = useNavigate();
+
+  const onNavigate = (path) => {
+    navigate(path);
+  };
 
   return (
-    <Nav>
-      <Nav.Item>
-        <MobileMenuButton onClick={() => setOpen((prev) => !prev)}>
-          {open ? (
-            <XSquare color="white" fontSize="30px" />
-          ) : (
-            <List color="white" fontSize="35px" />
-          )}
-        </MobileMenuButton>
-        <Collapse in={open} dimension="height">
-          <div
-            id="example-collapse-text"
-            style={{
-              position: "fixed",
-              zIndex: "9999",
-              left: "0",
-              width: "100%",
-            }}
-          >
-            <CustomCard>
-              {MENUS.map((menu) => (
-                <Nav.Link
-                  as={Link}
-                  to={menu.link}
-                  key={menu.link}
-                  style={{ width: "100%" }}
-                >
-                  <HeaderItem
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
+    <ClickAwayListener onClickAway={() => setOpen(false)}>
+      <Nav>
+        <Nav.Item>
+          <MobileMenuButton onClick={() => setOpen((prev) => !prev)}>
+            <XSquare
+              color="white"
+              fontSize="30px"
+              style={{
+                position: "fixed",
+
+                transition: "transform .5s",
+                transform: `scale(${!open ? 0 : -100}%)`,
+              }}
+            />
+            <List
+              color="white"
+              fontSize="35px"
+              style={{
+                // zIndex: open ? "-1000" : "1000",
+                transition: "transform .5s",
+                transform: `scale(${open ? 0 : -100}%)`,
+              }}
+            />
+          </MobileMenuButton>
+          <Collapse in={open} dimension="height">
+            <div
+              id="example-collapse-text"
+              style={{
+                position: "fixed",
+                zIndex: "9999",
+                left: "0",
+                width: "100%",
+                background: "#333",
+              }}
+            >
+              <>
+                {MENUS.map((menu) => (
+                  <Nav.Link
+                    onClick={() => onNavigate(menu.link)}
+                    style={{ width: "100%" }}
+                    type={menu.link}
                   >
-                    {menu.icon}
-                    <li>{menu.name}</li>
-                  </HeaderItem>
-                </Nav.Link>
-              ))}
-            </CustomCard>
-          </div>
-        </Collapse>
-      </Nav.Item>
-    </Nav>
+                    <HeaderItem
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                    >
+                      {menu.icon}
+                      <li>{menu.name}</li>
+                    </HeaderItem>
+                  </Nav.Link>
+                ))}
+              </>
+            </div>
+          </Collapse>
+        </Nav.Item>
+      </Nav>
+    </ClickAwayListener>
   );
 };
